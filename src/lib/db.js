@@ -3,8 +3,13 @@ import path from 'path';
 import fs from 'fs';
 import bcrypt from 'bcryptjs';
 
+// Directorio de datos escribible. Empaquetada con Tauri, la carpeta de
+// instalacion es de solo lectura, por lo que el sidecar apunta APP_DATA_DIR a la
+// carpeta de datos del usuario. En desarrollo se usa el directorio del proyecto.
+const dataDir = process.env.APP_DATA_DIR || process.cwd();
+
 // Define the database file path
-const dbPath = path.resolve(process.cwd(), 'database/soccer.db');
+const dbPath = path.resolve(dataDir, 'database/soccer.db');
 
 // Ensure database directory exists
 const dbDir = path.dirname(dbPath);
@@ -23,6 +28,8 @@ export function initDb() {
   
   if (!tableCheck) {
     console.log('Initializing database schema...');
+    // schema.sql es un recurso de solo lectura que viaja con la app, no un dato
+    // del usuario: se lee siempre desde el directorio de la aplicacion.
     const schemaPath = path.resolve(process.cwd(), 'database/schema.sql');
     if (fs.existsSync(schemaPath)) {
       const schemaSql = fs.readFileSync(schemaPath, 'utf8');
@@ -235,6 +242,11 @@ function seedSampleData() {
 
   console.log('Sample seeding finished.');
 }
+
+// Crea el esquema y siembra datos si la base esta vacia. En desarrollo lo hace
+// el script `predev`, pero la app empaquetada arranca contra una base nueva en
+// el directorio del usuario y necesita inicializarse en el primer arranque.
+initDb();
 
 // Export the database as default
 export default db;

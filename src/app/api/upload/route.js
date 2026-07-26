@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getAuthenticatedUser } from '@/lib/auth';
+import { getUploadsDir } from '@/lib/storage';
 import path from 'path';
 import fs from 'fs';
 
@@ -18,10 +19,11 @@ export async function POST(request) {
     }
 
     const buffer = Buffer.from(await file.arrayBuffer());
-    const filename = `${Date.now()}-${file.name.replace(/\s+/g, '_')}`;
-    
-    // Target directory
-    const uploadDir = path.resolve(process.cwd(), 'public/uploads');
+    // basename evita que un nombre con "../" escriba fuera del directorio.
+    const safeName = path.basename(file.name).replace(/[^\w.-]+/g, '_');
+    const filename = `${Date.now()}-${safeName}`;
+
+    const uploadDir = getUploadsDir();
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
