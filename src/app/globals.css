@@ -1,0 +1,181 @@
+@import "tailwindcss";
+
+/* ─── Theme Tokens ─── */
+@theme {
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Outfit', 'Inter', system-ui, sans-serif;
+
+  --color-brand: #10b981;
+  --color-brand-dark: #059669;
+  --color-brand-glow: rgba(16, 185, 129, 0.25);
+  --color-accent: #f59e0b;
+  --color-accent-dark: #d97706;
+  --color-surface: rgba(30, 41, 59, 0.7);
+  --color-surface-hover: rgba(30, 41, 59, 0.9);
+  --color-surface-border: rgba(51, 65, 85, 0.5);
+}
+
+/* ─── Base Layer ─── */
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: #0f172a;
+    color: #f8fafc;
+    font-family: var(--font-sans);
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.07) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.05) 0%, transparent 40%);
+    background-attachment: fixed;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: #ffffff;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0f172a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(51, 65, 85, 0.5);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #10b981;
+  }
+}
+
+/* ─── Custom Utilities ─── */
+@utility glass-card {
+  background: var(--color-surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-surface-border);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@utility glass-card-hover {
+  background: var(--color-surface-hover);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+@utility btn-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  font-size: 0.875rem;
+}
+
+@utility btn-primary {
+  background-color: var(--color-brand);
+  color: #ffffff;
+  box-shadow: 0 4px 14px 0 var(--color-brand-glow);
+}
+
+@utility btn-primary-hover {
+  background-color: var(--color-brand-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px 0 rgba(16, 185, 129, 0.4);
+}
+
+@utility btn-secondary {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
+  border: 1px solid var(--color-surface-border);
+}
+
+@utility btn-secondary-hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+@utility btn-accent {
+  background-color: var(--color-accent);
+  color: #000000;
+  box-shadow: 0 4px 14px 0 rgba(245, 158, 11, 0.25);
+}
+
+@utility btn-danger {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+@utility input-field {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--color-surface-border);
+  border-radius: 10px;
+  color: #ffffff;
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@utility input-field-focus {
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 2px var(--color-brand-glow);
+}
+
+@utility page-container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+@utility section-header {
+  border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+
+@utility stat-card {
+  background: var(--color-surface);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--color-surface-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@utility badge-status {
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
