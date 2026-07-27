@@ -38,7 +38,15 @@ fs.copyFileSync(
 fs.rmSync(path.join(standalone, 'database', 'soccer.db'), { force: true });
 
 // 2. Node como sidecar, con el sufijo del target triple.
-const triple = execFileSync('rustc', ['--print', 'host-tuple']).toString().trim();
+let triple;
+try {
+  triple = execFileSync('rustc', ['--print', 'host-tuple']).toString().trim();
+} catch {
+  console.error(
+    'No se encontro rustc. Instala Rust con rustup (https://rustup.rs/) antes de preparar el sidecar de Tauri.'
+  );
+  process.exit(1);
+}
 const binaries = path.join(root, 'src-tauri', 'binaries');
 fs.mkdirSync(binaries, { recursive: true });
 
